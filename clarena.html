@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Clarena</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    overflow:hidden;
+    background:radial-gradient(circle at center,#0b1026,#02030a 80%);
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+canvas{
+    position:fixed;
+    inset:0;
+}
+
+#nombre{
+    position:absolute;
+    color:white;
+    font-size:58px;
+    font-weight:bold;
+    text-shadow:
+    0 0 10px #fff,
+    0 0 20px #ff8fc8,
+    0 0 40px #ff4fa3;
+    animation:latir 2s infinite;
+}
+
+@keyframes latir{
+
+0%{
+transform:scale(1);
+}
+
+50%{
+transform:scale(1.08);
+}
+
+100%{
+transform:scale(1);
+}
+
+}
+</style>
+
+</head>
+
+<body>
+
+<canvas id="galaxia"></canvas>
+
+<div id="nombre">
+Clarena
+</div>
+
+<script>
+
+const canvas=document.getElementById("galaxia");
+const ctx=canvas.getContext("2d");
+
+function resize(){
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+}
+
+resize();
+
+window.addEventListener("resize",resize);
+
+const estrellas=[];
+
+for(let i=0;i<300;i++){
+
+estrellas.push({
+
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*2,
+a:Math.random()
+
+});
+
+}
+
+function animar(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+for(let s of estrellas){
+
+ctx.beginPath();
+ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+ctx.fillStyle="rgba(255,255,255,"+s.a+")";
+ctx.fill();
+
+s.a+= (Math.random()-0.5)*0.03;
+
+if(s.a<0.2)s.a=0.2;
+if(s.a>1)s.a=1;
+
+}
+
+requestAnimationFrame(animar);
+
+}
+
+animar();
+
+</script>
+
+</body>
+</html>
